@@ -15,25 +15,25 @@ currently, there are two types of operations to do in the scraper:
 - zendesk: scraping Zendesk companies.
 
 the scraper read a list of companies and start scraping the info,
-it writes to json files, folder for each company.
+it writes to JSON files, a folder for each company.
 
 ### Zendesk:
-this is straight-forward one , Zendesk simply have a common patter in their URL,
+this is a straight-forward one , Zendesk simply have a common patter in their URL,
 ```python
 f'{company_domain}/api/v2/help_center/en-us/sections.json',
 f'{company_domain}/api/v2/help_center/en-us/articles.json'
 ```
 by simply telling the spider to follow those links you can get all the articles, and their
-sections which what I did in zendesk_spider.
+sections which I did in zendesk_spider.
 
 ### general
-this is the tricky one, here the objective is to scrap any other help-center url by
-following the tree pattern if exist the tree patter is simply 
+this is the tricky one, here the objective is to scrap any other help-center URL by
+following the tree pattern if exists the tree pattern is simply 
 start_url>>start_url/categories>>start_url>>category>>article.
 to do that I keep recursively following the pattern while being careful, to avoid
-hitting urls that are not help-center articles.
-after that I store all the html content I get and start processing them as a tree looking
-for the last html page that contains the article and extract FAQS from it.
+hitting URLs that are not help-center articles.
+after that, I store all the HTML content I get and start processing them as a tree looking
+for the last HTML page that contains the article and extract FAQS from it.
 
 ## How to use
 
