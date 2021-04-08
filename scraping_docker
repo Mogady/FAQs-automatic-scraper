@@ -1,0 +1,29 @@
+FROM python:3.7
+
+RUN apt-get update && apt-get install -y --no-install-recommends wget gnupg curl
+# Add chrome repository
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+
+RUN apt-get update && apt-get install -y --no-install-recommends gcc libc-dev libmagic-dev unzip google-chrome-stable
+RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get clean
+
+# Install chromedriver
+RUN DRIVER_VERSION=$(curl -sL http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sL http://chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+
+# Set display port to avoid crash on chrome
+ENV DISPLAY=:99
+
+COPY requirements.txt /tmp/
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN useradd --create-home FAQ
+WORKDIR home/FAQ/
+
+COPY /FAQ FAQ/
+
+ENV PYTHONPATH /home/FAQ
+
+ENTRYPOINT ["python", "FAQ/scraper/run.py"]

@@ -1,0 +1,34 @@
+> configs                       contains project configurations
+    > AWS_settings.yaml             AWS configurations
+    > MongoDB_settings.yaml         MongoDB configurations
+    > spider_settings.yaml          Scrapy configurations
+
+> processor                     main processor modules
+    > data_extraction.py            FAQ extraction code
+    > post_processing.py            Rustle layout generation code
+    > run.py                        main module to run the processor operations
+
+> scraper                       main scraping modules
+    > HCMain_spider.py              Scrapy spider module to scrape the necessary data
+    > zendisk_spider                Scrapy spider for scraping Zendisk API
+    > items.py                      Scrapy items module
+    > pipelines/py                  Scrapy pipelines
+    > run.py                        main module for running scraper operations
+
+> utils                         utilities used inside the library
+    > definitions.py                some pre-defined paths to be used inside the code regarding the project
+    > general_utilities.py          some general functions for logging, lists, etc..
+    > tree_utilities.py             some functions used to deal with HTML tree
+    > Exceptions.py                 some rustle exceptions.
+
+> validators                    json schema validators
+    > FAQ_validator.py             main FAQ schema for rustle FAQ items
+    > spider_validator.py          Main scraping schema for full HTML content item
+
+> writers                       AWS and DB classes for writing and reading
+    > Mongodb_writer.py             Mongodb reading and writing functions
+    > S3_writer.py                  AWS S3 reading and writing functions
+
+> processing_docker.doc         docker file for running processor operations
+> scraping_docker.doc           docker file for running scraper operations
+> logging_documentation         log messages explanation
