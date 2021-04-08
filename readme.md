@@ -3,7 +3,7 @@
 ## Introduction
 This is an FAQs Automatic scraping from help centers articles
 using Scrapy tool, by saying Automatic I mean providing a list of companies and 
-their HelpCenter URL, and the scraper will start automatically follow all the internal
+their HelpCenter URLs, and the scraper will start automatically follow all the internal
 articles and extract FAQs as a (Question, Answer) pairs.
 
 I learned a lot while trying to make this, and I'm intending to do an article to explain
