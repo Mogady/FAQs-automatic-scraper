@@ -1,4 +1,4 @@
-# Automatic Scraping project for extracting FAQ and Help center articles
+# Automatic Scraping project for extracting FAQs and Help center articles
 
 ## Introduction
 This is an FAQs Automatic scraping from help centers articles
