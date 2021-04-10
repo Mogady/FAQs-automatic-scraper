@@ -48,8 +48,8 @@ to build and run the processor
 docker build -f processing_docker -t processor .
 docker run processor -f filename -t operation_type
 ```
-
-
+### Extras:
+you can use AWS and MongoDB with this project , it will require more configurations, but I added writes and pipelines that can help to do that.
 
 
 

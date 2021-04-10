@@ -7,6 +7,8 @@ from itemadapter import ItemAdapter
 from .items import FullItem, FAQItem
 from ..validators import spider_validator, FAQ_validator
 from ..utils.definitions import ROOT_DIR
+from ..writers.S3_writer import AWSWriter
+from ..writers.Mongodb_writer import MongoWriter
 
 
 class DropPipeline:
@@ -85,3 +87,59 @@ class JsonWriterPipeline:
         line = json.dumps(ItemAdapter(item).asdict()) + "\n"
         self.file.write(line)
         return item
+
+
+class AWSWriterPipeline:
+    def __init__(self, settings):
+        self.client = AWSWriter()
+        self.company = settings['name']
+        self.items = []
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    def process_item(self, item, spider):
+        if isinstance(item, FullItem):
+            page_name = '/'.join(item['url'].rstrip('/').split('/')[-2:])
+            self.client.write_json(data=ItemAdapter(item).asdict(), folder=self.company,
+                                   filename='data/' + page_name + '.json')
+
+            return item
+        else:
+            self.items.append(ItemAdapter(item).asdict())
+            return item
+
+    def close_spider(self, spider):
+        """
+        Callback function when spider is closed.
+        """
+        if not self.items:
+            return  # Do nothing when items is empty.
+
+        self.client.write_json(self.items, self.company, 'Stats.json')
+
+
+class MongoWriterPipeline:
+    def __init__(self, settings):
+        self.client = MongoWriter()
+        self.company = settings['name']
+        self.items = []
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    def process_item(self, item, spider):
+        for field in item.fields:
+            item.setdefault(field, '')
+        self.items.append(ItemAdapter(item).asdict())
+        return item
+
+    def close_spider(self, spider):
+        """
+        Callback function when spider is closed.
+        """
+        if not self.items:
+            return  # Do nothing when items is empty.
+        self.client.write(self.items, self.company)
