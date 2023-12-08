@@ -6,8 +6,6 @@ using Scrapy tool, by saying Automatic I mean providing a list of companies and
 their HelpCenter URLs, and the scraper will start automatically follow all the internal
 articles and extract FAQs as a (Question, Answer) pairs.
 
-I learned a lot while trying to make this, and I'm intending to do an article to explain
-some problems you might face while doing this and how I approached it.
 
 ## How does it work
 currently, there are two types of operations to do in the scraper:
